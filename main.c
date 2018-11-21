@@ -36,8 +36,12 @@ int main(){
     char ** args = parse_args(command);
     pid_t child = fork();
     int status;
-    wait(&status);
-    execvp(args[0], args);
+    if(!child){
+      execvp(args[0], args); 
+   }
+    else{  
+      wait(&status);
+    } 
   }
   return 0;
 }
