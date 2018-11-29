@@ -45,13 +45,10 @@ int main(){
     pid_t child = fork();
     int status;
     if(!child){
-      execvp(args[0], args); 
+      execvp(args[0], args);
     }
     else{  
       wait(&status);
     }
-    free(args);
-    i++;
-  }
-  return 0;
+    return 0;
 }
