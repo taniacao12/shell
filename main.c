@@ -8,11 +8,14 @@
 #include <sys/wait.h>
 
 char ** parse_args (char * line) {
-  char *s1 = calloc(strlen(line), 1);
-  char ** ret = calloc(6, sizeof(char *));
-  strcpy(s1, line);
-  for (int i = 0; s1; i++)
-    ret[i] = strsep(&s1, " ");
+  char ** ret = calloc(100, sizeof(char *));
+  for (int i = 0; line; i++)
+    ret[i] = strsep(&line, " ");
+  return ret;
+}
+
+char ** parse_coms(char * line){
+  char ** ret = calloc(6,sizeof(char *));
   return ret;
 }
 
@@ -24,7 +27,6 @@ int main(){
     int len = strlen(command);
     if (len > 0 && command[len - 1] == '\n')
       command[len - 1] = '\0';
-
     while(strlen(command) < 1) {
       printf("Enter command:");
       fgets(command,50,stdin);
@@ -32,16 +34,24 @@ int main(){
       if (len > 0 && command[len - 1] == '\n')
 	command[len - 1] = '\0';
     }
-
+    int i = 0;
     char ** args = parse_args(command);
+    if(!strcmp(args[0],"exit")){
+      exit(0);
+    }
+    if(!strcmp(args[0],"cd")){
+      chdir(args[1]);
+    }
     pid_t child = fork();
     int status;
     if(!child){
       execvp(args[0], args); 
-   }
+    }
     else{  
       wait(&status);
-    } 
+    }
+    free(args);
+    i++;
   }
   return 0;
 }
