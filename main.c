@@ -30,18 +30,17 @@ int main(){
       fgets(command,50,stdin);
       len = strlen(command);
       if (len > 0 && command[len - 1] == '\n')
-	command[len - 1] = '\0';
+			command[len - 1] = '\0';
     }
 
     char ** args = parse_args(command);
     pid_t child = fork();
     int status;
-    if(!child){
+    if(!child)
       execvp(args[0], args); 
-   }
-    else{  
+    else  
       wait(&status);
-    } 
   }
-  return 0;
+  
+	return 0;
 }
