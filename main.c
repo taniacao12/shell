@@ -50,5 +50,6 @@ int main(){
     else{  
       wait(&status);
     }
+  }
     return 0;
 }
