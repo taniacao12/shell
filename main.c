@@ -15,8 +15,30 @@ char ** parse_args (char * line) {
 }
 
 char ** parse_coms(char * line){
-  char ** ret = calloc(6,sizeof(char *));
-  return ret;
+  char ** ret = calloc(100, sizeof(char *));
+  for (int i = 0; line; i++)
+    ret[i] = strsep(&line, ";");
+  return ret;  
+}
+
+void commands(char ** arg){
+  if(!strcmp(arg[0],"exit")){
+    exit(0);
+  }
+  if(!strcmp(arg[0],"cd")){
+    chdir(arg[1]);
+  }
+}
+
+void run(char ** arg){
+  pid_t child = fork();
+  int status;
+  if(!child){
+    execvp(arg[0], arg);
+  }
+  else{  
+    wait(&status);
+  }
 }
 
 int main(){
@@ -35,20 +57,11 @@ int main(){
 	command[len - 1] = '\0';
     }
     int i = 0;
-    char ** args = parse_args(command);
-    if(!strcmp(args[0],"exit")){
-      exit(0);
-    }
-    if(!strcmp(args[0],"cd")){
-      chdir(args[1]);
-    }
-    pid_t child = fork();
-    int status;
-    if(!child){
-      execvp(args[0], args);
-    }
-    else{  
-      wait(&status);
+    char ** coms = parse_coms(command);
+    for(int i = 0; coms[i];i++){
+      char ** args = parse_args(coms[i]);
+      commands(args);
+      run(args);
     }
   }
     return 0;
