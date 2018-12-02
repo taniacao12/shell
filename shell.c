@@ -30,7 +30,12 @@ void commands(char ** arg){
 		      exit(0);
 		        }
 	    if(!strcmp(arg[0],"cd")){
+		    if(chdir(arg[1]) < 0){
+				    printf("Directory does not exit");
+				    }
+			else{
 		        chdir(arg[1]);
+			  }
 			  }
 }
 
