@@ -6,40 +6,7 @@
 #include <string.h>
 #include <sys/stat.h>
 #include <sys/wait.h>
-
-char ** parse_args (char * line) {
-  char ** ret = calloc(100, sizeof(char *));
-  for (int i = 0; line; i++)
-    ret[i] = strsep(&line, " ");
-  return ret;
-}
-
-char ** parse_coms(char * line){
-  char ** ret = calloc(100, sizeof(char *));
-  for (int i = 0; line; i++)
-    ret[i] = strsep(&line, ";");
-  return ret;  
-}
-
-void commands(char ** arg){
-  if(!strcmp(arg[0],"exit")){
-    exit(0);
-  }
-  if(!strcmp(arg[0],"cd")){
-    chdir(arg[1]);
-  }
-}
-
-void run(char ** arg){
-  pid_t child = fork();
-  int status;
-  if(!child){
-    execvp(arg[0], arg);
-  }
-  else{  
-    wait(&status);
-  }
-}
+#include "shell.h"
 
 int main(){
   char command[50];
