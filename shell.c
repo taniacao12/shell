@@ -10,7 +10,7 @@
 #include <sys/wait.h>
 #include "shell.h"
 
-// seperate one command into seperate parts
+// seperate a command's arguments
 char ** parse_args (char * line) {
   char ** ret = calloc(100, sizeof(char *));
   for (int i = 0; line; i++)
@@ -18,7 +18,7 @@ char ** parse_args (char * line) {
   return ret;
 }
 
-// seperate a line into multiple commands based on :
+// seperate a line into multiple commands
 char ** parse_coms(char * line){
   char ** ret = calloc(100, sizeof(char *));
   for (int i = 0; line; i++)
@@ -48,7 +48,6 @@ void redirecc(char ** line){
   int stdout_fd = stdout_backup;
   int stdin_fd = stdin_backup;
   char ** args = calloc(100,sizeof(char *));
-
   for(int i = 0;line[i];i++){
     if(!strcmp(line[i],">")){
       stdout_new = line[i+1];
