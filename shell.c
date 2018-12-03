@@ -47,7 +47,8 @@ void redirecc(char ** line){
   char * stdin_new;
   int stdout_fd = stdout_backup;
   int stdin_fd = stdin_backup;
-  char * args[256];
+  char ** args = calloc(100,sizeof(char *));
+
   for(int i = 0;line[i];i++){
     if(!strcmp(line[i],">")){
 	stdout_new = line[i+1];
@@ -76,9 +77,10 @@ void redirecc(char ** line){
 	close(stdin_fd);
     }
     else{
-	    args[i+1] = line[i];
+	    args[i] = line[i];
     }
   }
+  free(args);
 }
 
 // run the command
