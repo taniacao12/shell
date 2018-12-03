@@ -28,6 +28,7 @@ int main(){
     for(int i = 0; coms[i];i++){
       char ** args = parse_args(coms[i]);
       commands(args);
+      redirecc(args);
       run(args);
     }
   }

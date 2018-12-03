@@ -10,3 +10,4 @@ clean:
 	rm -rf *~
 	rm -rf *.out
 	rm -rf *.o
+	rm -rf *.txt
