@@ -31,11 +31,14 @@ void commands(char ** arg){
   }
   if(!strcmp(arg[0],"cd")){
     if(chdir(arg[1]) < 0){
-      printf("Directory does not exit");
+      printf("Directory does not exist \n");
     }
     else{
       chdir(arg[1]);
     }
+  }
+  if(!strcmp(arg[1],">") < 0){
+      printf("hi");
   }
 }
 
@@ -43,7 +46,9 @@ void run(char ** arg){
   pid_t child = fork();
   int status;
   if(!child){
-    execvp(arg[0], arg);
+    if(execvp(arg[0], arg) < 0){
+    	exit(0);
+	}
   }
   else{  
     wait(&status);
