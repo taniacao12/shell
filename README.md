@@ -1,5 +1,5 @@
 # shell
-by Tania Cao and Garvey Zhou \n
+by Tania Cao and Garvey Zhou 
 
 ## Feature
 Forks and reaps the fruits of child command processes  
