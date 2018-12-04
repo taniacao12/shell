@@ -85,13 +85,21 @@ int redirecc(char ** line){
   free(args);
   return exit;
 }
-
-int piping(char ** arg){
+/*
+int piping(char * arg){
   int stdout_backup = dup(STDOUT_FILENO);
   int stdin_backup = dup(STDIN_FILENO);
-  
-  return 0;
+  int pipe = 0;
+  int p[2];
+  char * command = strsep(&arg, "|");
+  pipe(p);
+  dup2(p[1],P_WRITE);
+  close(p[0]);
+  run(arg);
+  return pipe;
  }
+ */
+
 // run the command
 void run(char ** arg){
   pid_t child = fork();
