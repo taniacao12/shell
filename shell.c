@@ -39,7 +39,7 @@ void commands(char ** arg){
 }
 
 // redirection
-void redirecc(char ** line){
+int redirecc(char ** line){
   int stdout_backup = dup(STDOUT_FILENO);
   int stdin_backup = dup(STDIN_FILENO);
   int mode = O_CREAT | O_WRONLY;
@@ -48,6 +48,7 @@ void redirecc(char ** line){
   int stdout_fd = stdout_backup;
   int stdin_fd = stdin_backup;
   char ** args = calloc(100,sizeof(char *));
+  int exit = 0;
   for(int i = 0;line[i];i++){
     if(!strcmp(line[i],">")){
       stdout_new = line[i+1];
@@ -57,6 +58,7 @@ void redirecc(char ** line){
       run(args);
       dup2(stdout_backup,STDOUT_FILENO);
       close(stdout_fd);
+      exit ++;
     }
     else if(!strcmp(line[i],">>")){
       stdout_new = line[i+1];
@@ -66,6 +68,7 @@ void redirecc(char ** line){
       run(args);
       dup2(stdout_backup,STDOUT_FILENO);
       close(stdout_fd);
+      exit++;
     }
     else if(!strcmp(line[i],"<")){
       stdin_new = line[i+1];
@@ -74,13 +77,21 @@ void redirecc(char ** line){
       run(args);
       dup2(stdin_backup,STDIN_FILENO);
       close(stdin_fd);
+      exit++;
     }
     else
       args[i] = line[i];
   }
   free(args);
+  return exit;
 }
 
+int piping(char ** arg){
+  int stdout_backup = dup(STDOUT_FILENO);
+  int stdin_backup = dup(STDIN_FILENO);
+  
+  return 0;
+ }
 // run the command
 void run(char ** arg){
   pid_t child = fork();
@@ -92,3 +103,5 @@ void run(char ** arg){
   else 
     wait(&status);
 }
+
+
